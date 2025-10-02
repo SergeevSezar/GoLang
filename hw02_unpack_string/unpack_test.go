@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestUnpack(t *testing.T) {
+func TestUnpack_test(t *testing.T) {
 	tests := []struct {
 		input    string
 		expected string
