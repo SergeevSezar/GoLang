@@ -48,10 +48,6 @@ func TestTop10(t *testing.T) {
 		require.Len(t, Top10(""), 0)
 	})
 
-	t.Run("single word", func(t *testing.T) {
-		require.Equal(t, []string{"Винни"}, Top10("Винни"))
-	})
-
 	t.Run("repeated word", func(t *testing.T) {
 		require.Equal(t, []string{"кристофер"}, Top10("кристофер кристофер кристофер кристофер"))
 	})
@@ -104,5 +100,11 @@ func TestTop10(t *testing.T) {
 			}
 			require.Equal(t, expected, Top10(text))
 		}
+	})
+}
+
+func TestTop10SingleWord(t *testing.T) {
+	t.Run("single word", func(t *testing.T) {
+		require.Equal(t, []string{"Винни"}, Top10("Винни"))
 	})
 }
