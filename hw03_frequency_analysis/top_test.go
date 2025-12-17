@@ -48,6 +48,28 @@ func TestTop10(t *testing.T) {
 		require.Len(t, Top10(""), 0)
 	})
 
+	t.Run("repeated word", func(t *testing.T) {
+		require.Equal(t, []string{"кристофер"}, Top10("кристофер кристофер кристофер кристофер"))
+	})
+
+	t.Run("case sensitivity", func(t *testing.T) {
+		result := Top10("Кристофер кристофер кристофер")
+		expected := []string{"кристофер", "Кристофер"}
+		require.Equal(t, expected, result[:2])
+	})
+
+	t.Run("punctuation as part of word", func(t *testing.T) {
+		result := Top10("Лебедь Лебедь, Лебедь. Лебедь")
+		expected := []string{"Лебедь", "Лебедь,", "Лебедь."}
+		require.Equal(t, expected, result[:3])
+	})
+
+	t.Run("hyphen as separate word", func(t *testing.T) {
+		result := Top10("бумкать - бумкать")
+		expected := []string{"бумкать", "-"}
+		require.Equal(t, expected, result[:2])
+	})
+
 	t.Run("positive test", func(t *testing.T) {
 		if taskWithAsteriskIsCompleted {
 			expected := []string{
@@ -78,5 +100,11 @@ func TestTop10(t *testing.T) {
 			}
 			require.Equal(t, expected, Top10(text))
 		}
+	})
+}
+
+func TestTop10SingleWord(t *testing.T) {
+	t.Run("single word", func(t *testing.T) {
+		require.Equal(t, []string{"Винни"}, Top10("Винни"))
 	})
 }
