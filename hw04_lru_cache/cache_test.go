@@ -1,7 +1,9 @@
 package hw04lrucache
 
 import (
-	"math/rand"
+	"crypto/rand"
+	"fmt"
+	"math/big"
 	"strconv"
 	"sync"
 	"testing"
@@ -71,9 +73,17 @@ func TestCacheMultithreading(t *testing.T) {
 	go func() {
 		defer wg.Done()
 		for i := 0; i < 1_000_000; i++ {
-			c.Get(Key(strconv.Itoa(rand.Intn(1_000_000))))
+			c.Get(Key(strconv.Itoa(int(randomInt(1_000_000)))))
 		}
 	}()
 
 	wg.Wait()
+}
+
+func randomInt(max int64) int64 {
+	n, err := rand.Int(rand.Reader, big.NewInt(max))
+	if err != nil {
+		panic(fmt.Sprintf("Failed to generate random number: %v", err))
+	}
+	return n.Int64()
 }
